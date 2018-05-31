@@ -13,7 +13,7 @@ app.post('/signup', passport.authenticate('local-signup',  { successRedirect: '/
                                                     ));
 
 app.get('/logout',authController.logout);
-
+app.get('/', authController.menu);
 app.get('/index',authController.menu);
 
 

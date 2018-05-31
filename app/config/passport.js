@@ -1,6 +1,7 @@
 'use strict';
 
 let bCrypt = require('bcrypt-nodejs')
+let md5 = require('crypto')
 
 
 module.exports = (passport,user)=>{
@@ -31,8 +32,8 @@ module.exports = (passport,user)=>{
 
     (req,email,password,done)=>{
 
-        let generateBcrypt = (password)=>{
-            return bCrypt.hashSync(password,bCrypt.genSaltSync(4),null)
+        let generateCrypt = (password)=>{
+            return bCrypt.hashSync(password,bCrypt.genSaltSync(4),null);
         }
 
         User.findOne({where: {email:email}}).then((user)=>{
@@ -41,7 +42,7 @@ module.exports = (passport,user)=>{
             }
 
             else {
-                let userPassword = generateBcrypt(passport)
+                let userPassword = generateCrypt(password)
                 let data = {
                     email:email,
                     password: userPassword,
@@ -72,9 +73,10 @@ passport.use('local-signin', new LocalStrategy(
 
     (req, email, password, done)=>{
         let User = user;
-        var isValidPassword = function(userpass,password){
+        let isValidPassword = (userpass, password)=>{
             return bCrypt.compareSync(password, userpass)
         }
+        
 
         User.findOne({ where: { email: email }}).then((user)=>{
             if(!user){
@@ -88,11 +90,11 @@ passport.use('local-signin', new LocalStrategy(
                 return done(null, false, {message: 'Email/Password Salah'})
                 console.log(message)
             }
-
             let userinfo = user.get();
             
             console.log('Berhasil Login',userinfo)
             return done(null,userinfo)
+
         }).catch((err)=>{
             console.log("Error ",err)
             return done(null, false, {message: 'Something went wrong with your signin'})

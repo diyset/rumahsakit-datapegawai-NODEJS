@@ -36,9 +36,6 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 //START Controller
-app.get('/', (req, res)=>{
-  res.send('Lancar Di Deploy')
-});
 
 //END Controller
 
