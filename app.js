@@ -1,7 +1,6 @@
 let createError = require('http-errors');
 let express = require('express');
 let path = require('path');
-let cookieParser = require('cookie-parser');
 let logger = require('morgan');
 let bodyParser = require('body-parser');
 let env = require('dotenv').load();
