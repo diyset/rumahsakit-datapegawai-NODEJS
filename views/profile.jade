@@ -1,0 +1,11 @@
+extends layout
+
+block content
+    h1= title
+    a(href='/logout') Logout
+    div
+        p Welcome to #{profile.full_name}
+        p
+        p Name : #{profile.full_name}
+        p
+        p Email : #{profile.email}
