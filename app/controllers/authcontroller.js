@@ -2,11 +2,11 @@ var exports = module.exports = {}
 
 
 exports.signup = function(req,res){
-	res.render('signup',{'title':'Signup Page'}); 
+	res.render('signupv2',{'title':'Signup Page','message': req.flash('message')[0]});
 }
 
 exports.signin = function(req,res){
-	res.render('signin',{'title':'Login Page'}); 
+	res.render('login',{'title':'Login Page','message': req.flash('message')[0]});
 }
 
 exports.menu = function(req,res){
@@ -15,7 +15,15 @@ exports.menu = function(req,res){
   res.render('index',{'profile': profile,'title':'Menu Page'});
 }
 
+exports.login = (req,res)=>{
+  let message = req.message;
+  console.log('Message ',message)
+  res.render('login',{'message': message})
+}
 
+exports.signupv2 = (req,res)=>{
+  res.render('signupv2',{'title':'Sign Up V2 Page'})
+}
 
 exports.logout = function(req,res){
 

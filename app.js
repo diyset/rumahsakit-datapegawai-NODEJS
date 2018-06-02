@@ -6,27 +6,25 @@ let bodyParser = require('body-parser');
 let env = require('dotenv').load();
 let passport = require('passport');
 let session = require('express-session');
-
-
-
-//required for passport
-
-
+let expressValidator = require('express-validator');
+let flash = require('connect-flash');
 
 let app = express();
-
 
 // For Body Parser
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json()); 
 
+//For Connect Flash
+app.use(flash());
+//For Express Validator
+app.use(expressValidator());
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
 app.use(logger('dev'));
 
-app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 // For Passport
@@ -41,8 +39,10 @@ app.use(passport.session());
 //Models
 let models = require('./app/models')
 
+
 //Routes
 let authRoute = require('./app/routes/auth')(app,passport)
+let memberRoute = require('./app/routes/master_member')(app,passport)
 
 
 require('./app/config/passport.js')(passport, models.user)

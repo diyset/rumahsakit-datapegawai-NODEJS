@@ -17,6 +17,10 @@ a:focus {
     color: forestgreen;
 }
 
+label{
+    font-size: 16px;
+}
+
 p {
     font-size: 16px;
     line-height: 1.5;
@@ -32,7 +36,10 @@ header {
   background-size: cover;
   -o-background-size: cover;
 }
-
+body{
+    background-image: url('../images/header.jpg');
+    background-size: cover;
+}
 
 header .header-content {
     position: relative;
@@ -54,10 +61,10 @@ header .header-content .login p {
 
 .login_box{
     background:#f7f7f7;
-    border:3px solid #F4F4F4;
-    padding-left: 15px;
-    margin-bottom:25px;
-    color: #43A6EB
+    border:1px solid #F4F4F4;
+    padding-left: 10px;
+    margin-bottom: 20px;
+    color: rgb(0, 0, 0)
     }
 
 header .header-content .header-content-inner h1 {
@@ -176,6 +183,9 @@ header .header-content .header-content-inner p {
 .text-center{
     color: rgb(255, 255, 255);
 }
+.text-center-loginv2{
+    color:#1d2124;
+}
 
 .card-container.card {
     max-width: 350px;
@@ -192,7 +202,7 @@ header .header-content .header-content-inner p {
 .form-signin #inputEmail,
 .form-signin #inputPassword {
   direction: ltr;
-  height: 44px;
+  height: 20px;
   font-size: 16px;
 }
 

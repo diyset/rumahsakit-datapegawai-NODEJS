@@ -1,9 +1,8 @@
 'use strict';
 
 let bCrypt = require('bcrypt-nodejs')
-let md5 = require('crypto')
-
-
+let Sequelize = require('sequelize')
+let Op = Sequelize.Op;
 module.exports = (passport,user)=>{
     
     let User = user;
@@ -35,7 +34,7 @@ module.exports = (passport,user)=>{
         let generateCrypt = (password)=>{
             return bCrypt.hashSync(password,bCrypt.genSaltSync(4),null);
         }
-
+       
         User.findOne({where: {email:email}}).then((user)=>{
             if(user){
                 return done(null, false, {message: 'That email is Already Taken'})
@@ -43,12 +42,20 @@ module.exports = (passport,user)=>{
 
             else {
                 let userPassword = generateCrypt(password)
+                let purePassword = req.body.password;
                 let data = {
                     email:email,
                     password: userPassword,
                     firstname: req.body.firstname,
-                    lastname: req.body.lastname
+                    lastname: req.body.lastname,
+                    username: req.body.username,
                 }
+        let confirmPassword = req.body.confirmPassword;
+
+         if(purePassword != confirmPassword){
+             console.log(data.password, confirmPassword)
+             return done(null, false, req.flash('message','Confirm Password is not valid'))
+         }
 
         User.create(data).then((newUser,created)=>{
             if(!newUser){
@@ -71,28 +78,40 @@ passport.use('local-signin', new LocalStrategy(
         passReqToCallback: true
 },
 
-    (req, email, password, done)=>{
+    (req, email, password, done, res)=>{
+        var date = new Date();
+        let createDateAsUTC = (date)=>{
+            return new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate(), date.getHours(), date.getMinutes(), date.getSeconds()));
+        }      
         let User = user;
         let isValidPassword = (userpass, password)=>{
             return bCrypt.compareSync(password, userpass)
         }
-        
 
-        User.findOne({ where: { email: email }}).then((user)=>{
+
+
+        User.findOne({ where:{ [Op.or]: [{ email: email } , { username: email }]}}).then((user)=>{
+        // User.findOne({where: { email: email}}).then((user)=>{
+
             if(!user){
-                console.log("Data Tidak ada",!user)
-                return done(null, false, {message: 'Email/Password Salah!'})
-            } 
+                return done(null, false, req.flash('message','Username or Password is not valid'))
+            }
 
             if(!isValidPassword(user.password, password)){
-                console.log(user.password, password)
-                console.log("isValidPassword",!isValidPassword)
-                return done(null, false, {message: 'Email/Password Salah'})
-                console.log(message)
+                return done(null, false, req.flash('message','Username or Password is not valid'))
             }
+            let data = {
+                last_login: createDateAsUTC(date)
+            }
+            user.update(data).then((newUser,created)=>{
+                console.log('newUser',newUser)
+                if(!newUser){
+                    return done(null,false)
+                } else {
+                    return done(null, newUser)
+                }
+            })
             let userinfo = user.get();
-            
-            console.log('Berhasil Login',userinfo)
             return done(null,userinfo)
 
         }).catch((err)=>{

@@ -24,8 +24,9 @@ block content
               a(href="/signin") Login 
             else
               a Welcome, #{profile.firstname} #{profile.lastname}
-          li
-            a(href='/signup') Sign Up    
+          if profile == null
+            li
+              a(href='/signupv2') Sign Up
           li
             a(href="#") Contact  
           li

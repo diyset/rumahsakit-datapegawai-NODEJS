@@ -27,34 +27,37 @@ block content
                         a(href='/signup') Sign Up        
                     li
                         a(href="#") Contact  
+    
+            
                         
-                                //- form(action="/signup",id="signup",name="signup", method="POST")
-                                //-     label(for="email") Email Address
-                                //-     input(type="email",class="text", name="email")
-                                //-     label(for="firstname") First Name
-                                //-     input(type="text", name="firstname")
-                                //-     label(for="lastname") Last Name
-                                //-     input(type="text", name="lastname")
-                                //-     label(for="password") Password
-                                //-     input(type="password" name="password")
-                                //-     input(type="submit", class="btn" value="Sign Up")
     header
         .header-content
             .login
             section
-                .container
-                    h1.text-center Welcome To
-                            .card.card-container
-                                h2.login_title.text-center Sign Up
-                                    form.form-signin(action="/signup",id="signup",name="signup", method="POST")
-                                        label(for="email") Email Address
-                                        input#inputEmail.login_box(type="email",class="text", name="email")
-                                        label(for="firstname").input_title First Name
-                                        input#inputEmail.login_box(type="text", name="firstname")
-                                        label(for="lastname") Last Name
-                                        input(type="text", name="lastname")
-                                        label(for="password") Password
-                                        input(type="password" name="password")
-                                        br
-                                        #remember.checkbox
-                                            button.btn.btn-lg.btn-danger(type='submit') Sign Up
+                    .container
+                        br
+                        br
+                        br
+                        br
+                        br
+                        br
+                        h1.text-center Welcome To
+                                .card.card-container
+                                    h2.login_title.text-center Sign Up
+                                    h2.text-center #{message}
+                                        form.form-signin(action="/signup",id="signup",name="signup", method="POST")
+                                            label(for="email") Email Address
+                                            input#inputEmail.login_box(type="email",class="text", name="email")
+                                            label(for="firstname").input_title First Name
+                                            input#inputEmail.login_box(type="text" class="text" name="firstname")
+                                            label(for="lastname") Last Name
+                                            input#inputEmail.login_box(type="text" class="text" name="lastname")
+                                            label(for="username") Username
+                                            input#inputEmail.login_box(type="text" class="text" name="username" )
+                                            label(for="password") Password
+                                            input#inputPassword.login_box(type="password" name="password")
+                                            label(for="password") Confirm Password
+                                            input#inputPassword.login_box(type="password" name="confirmPassword")
+                                            br
+                                            #remember.checkbox
+                                                button.btn.btn-lg.btn-danger(type='submit') Sign Up
