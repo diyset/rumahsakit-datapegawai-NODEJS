@@ -12,8 +12,10 @@ exports.signin = function(req,res){
 exports.menu = function(req,res){
   let profile = req.user;
   console.log('Menu : ',profile)
-  res.render('index',{'profile': profile,'title':'Menu Page'});
+  res.render('index',{'profile': profile,'title':'Menu Page','product':'/product'});
 }
+
+
 
 exports.login = (req,res)=>{
   let message = req.message;

@@ -18,12 +18,16 @@ block content
           li.active
             a(href="#") Home
           li
-            a(href="#") Product
-          li
+            a(href="#{product}") Product
+          li.dropdown
             if profile == null
-              a(href="/signin") Login 
+              a(href="/signin") Login
             else
-              a Welcome, #{profile.firstname} #{profile.lastname}
+              a.dropdown-toggle(data-toggle="dropdown" href="#") Welcome, #{profile.firstname}
+                span.caret
+                  ul.dropdown-menu
+                      li
+                        a.dropdown-item(href="/detailprofile") Detail Profile
           if profile == null
             li
               a(href='/signupv2') Sign Up

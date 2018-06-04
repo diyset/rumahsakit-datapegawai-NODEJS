@@ -16,10 +16,10 @@
       },
 
       "production": {
-        "username": "",
+        "username": "clientpc",
         "password": null,
-        "database": "",
-        "host": "127.0.0.1",
+        "database": "belajar-sequelize",
+        "host": "192.168.1.16",
         "dialect": "mysql"
       }
 }

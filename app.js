@@ -41,11 +41,12 @@ let models = require('./app/models')
 
 
 //Routes
-let authRoute = require('./app/routes/auth')(app,passport)
-let memberRoute = require('./app/routes/master_member')(app,passport)
+let authRoute = require('./app/routes/auth')(app,passport);
+let memberRoute = require('./app/routes/master_member')(app);
+let detailProfileRoute = require('./app/routes/detailprofile')(app);
+let productRoute = require('./app/routes/product')(app);
 
-
-require('./app/config/passport.js')(passport, models.user)
+require('./app/config/passport.js')(passport, models.user);
 
 //Sync Database
 models.sequelize.sync().then(function(){

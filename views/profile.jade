@@ -2,10 +2,12 @@ extends layout
 
 block content
     h1= title
-    a(href='/logout') Logout
     div
-        p Welcome to #{profile.full_name}
+        p Welcome to #{profile.firstname} #{profile.lastname}
         p
-        p Name : #{profile.full_name}
-        p
+        p Name Depan : #{profile.firstname}
+        p Nama Belakang : #{profile.lastname}
         p Email : #{profile.email}
+        p Username : #{profile.username}
+        p Last Login : #{profile.last_login}
+
