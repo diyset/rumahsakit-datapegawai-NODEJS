@@ -8,6 +8,7 @@ let passport = require('passport');
 let session = require('express-session');
 let expressValidator = require('express-validator');
 let flash = require('connect-flash');
+let ejs = require('ejs');
 
 let app = express();
 
@@ -21,7 +22,9 @@ app.use(flash());
 app.use(expressValidator());
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'jade');
+// app.set('view engine', 'jade');
+app.set('view engine','ejs');
+
 
 app.use(logger('dev'));
 
@@ -33,7 +36,20 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 //START Controller
+app.get('/', function(req, res) {
+    var drinks = [
+        { name: 'Bloody Mary', drunkness: 3 },
+        { name: 'Martini', drunkness: 5 },
+        { name: 'Scotch', drunkness: 10 }
+    ];
+    var tagline = "Any code of your own that you haven't looked at for six or more months might as well have been written by someone else.";
 
+    res.render('index', {
+        drinks: drinks,
+        tagline: tagline,
+        title: 'Index Page'
+    });
+});
 //END Controller
 
 //Models
@@ -41,12 +57,12 @@ let models = require('./app/models')
 
 
 //Routes
-let authRoute = require('./app/routes/auth')(app,passport);
-let memberRoute = require('./app/routes/master_member')(app);
-let detailProfileRoute = require('./app/routes/detailprofile')(app);
-let productRoute = require('./app/routes/product')(app);
+// let authRoute = require('./app/routes/auth')(app,passport);
+// let memberRoute = require('./app/routes/master_member')(app);
+// let detailProfileRoute = require('./app/routes/detailprofile')(app);
+// let productRoute = require('./app/routes/product')(app);
 
-require('./app/config/passport.js')(passport, models.user);
+// require('./app/config/passport.js')(passport, models.user);
 
 //Sync Database
 models.sequelize.sync().then(function(){
@@ -64,7 +80,7 @@ app.use(function(req, res, next) {
 });
 
 // error handler
-app.use(function(err, req, res, next) {
+app.use(function(err, req, res) {
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
