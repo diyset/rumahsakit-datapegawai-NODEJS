@@ -1,9 +1,10 @@
-const models = require('./app/models/')
+var dateformat = require('dateformat');
+var now = new Date()
+dateformat.masks.absensi = 'HH:MM'
+let latestAbsensi = dateformat(now, "absensi");
+console.log(dateformat(now, "absensi"));
+console.log(latestAbsensi)
 
-console.log('Mmeber :',models.member)
-
-models.member.findAll().then((results)=>{
-    for(let i = 0;i < results.length;i += 1){
-        console.log(results[i].dataValues)
-    }
-})
+dateformat.masks.tanggalLahir = 'yyyy:mmmm:dd HH:MM'
+let tanggalLahir = dateformat('1994/10/05 12:05', "tanggalLahir")
+console.log(tanggalLahir)

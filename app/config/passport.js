@@ -1,23 +1,27 @@
 'use strict';
 
+let dateformat = require('dateformat')
 let bCrypt = require('bcrypt-nodejs')
 let Sequelize = require('sequelize')
 let Op = Sequelize.Op;
+let moment = require('moment')
+
+
 module.exports = (passport,user)=>{
     
     let User = user;
     let LocalStrategy = require('passport-local').Strategy;
 
     passport.serializeUser((user,done)=>{
-        done(null, user.id)
+        done(null, user.nip)
     })
 
-    passport.deserializeUser((id, done)=>{
-        User.findById(id).then((user)=>{
+    passport.deserializeUser((nip, done)=>{
+        User.findById(nip).then((user)=>{
             if(user){
                 done(null, user.get())
-                done(user.errors,null)
             } else {
+                done(user.errors,null)
             }
         })
     })
@@ -34,8 +38,16 @@ module.exports = (passport,user)=>{
         let generateCrypt = (password)=>{
             return bCrypt.hashSync(password,bCrypt.genSaltSync(4),null);
         }
-
-        User.findOne({ where:{ [Op.or]: [{ email: email } , { username: email }]}}).then((user)=>{
+        // dateformat.masks.tanggalLahir = 'DD/MM/YYYY';
+        let bodyTanggal_lahir = req.body.tanggal_lahir;
+        let tanggal_lahir = dateformat(bodyTanggal_lahir,'tanggalLahir')
+        console.log(req.body.email)
+        console.log(req.body.tanggal_lahir)
+        let dateFormat = req.body.tanggal_lahir;
+        let afterParsing = moment(dateFormat).format('D/MMM/YYYY')
+        console.log(dateFormat)
+        console.log(afterParsing)
+        User.findOne({ where:{ [Op.or]: [{ email: email } , { nip: email }]}}).then((user)=>{
             if(user){
                 return done(null, false, req.flash('message','Email is Already Taken'))
             }
@@ -44,19 +56,28 @@ module.exports = (passport,user)=>{
                 let userPassword = generateCrypt(password)
                 let purePassword = req.body.password;
                 let data = {
+                    
                     email:email,
                     password: userPassword,
-                    firstname: req.body.firstname,
-                    lastname: req.body.lastname,
-                    username: req.body.username,
+                    nama: req.body.name,
+                    tanggal_lahir: req.body.tanggal_lahir,
+                    tempat_lahir: req.body.tempat_lahir,
+                    jenis_kelamin: req.body.jenis_kelamin,
+                    status: req.body.status,
+                    pendidikan_akhir: req.body.pendidikan_terakhir,
+                    alamat: req.body.alamat,
+                    kode_golongan: 99,
+                    tanggal_masuk: new Date(),
+                    last_login: new Date(),
+                    status_aktif: "Aktif"
                 }
         let confirmPassword = req.body.confirmPassword;
-
+        console.log(tanggal_lahir)
          if(purePassword != confirmPassword){
              console.log(data.password, confirmPassword)
              return done(null, false, req.flash('message','Confirm Password is not valid'))
          }
-
+         console.log('Data : '+data.dataValues)
         User.create(data).then((newUser,created)=>{
             if(!newUser){
                 return done(null,false)
@@ -78,7 +99,7 @@ passport.use('local-signin', new LocalStrategy(
         passReqToCallback: true
 },
 
-    (req, email, password, done, res)=>{
+    (req, email, password, done)=>{
         var date = new Date();
         let createDateAsUTC = (date)=>{
             return new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate(), date.getHours(), date.getMinutes(), date.getSeconds()));
@@ -89,29 +110,48 @@ passport.use('local-signin', new LocalStrategy(
         }
 
 
+        /*
+            QUERY ORM
+         */
+        // User.findOne({
+        //     where:{
+        //         [Op.or]:
+        //             [{ email: email } ,
+        //                 { nip: email }]}
+        // })
 
-        User.findOne({ where:{ [Op.or]: [{ email: email } , { username: email }]}}).then((user)=>{
-        // User.findOne({where: { email: email}}).then((user)=>{
-
-            if(!user){
-                return done(null, false, req.flash('message','Username or Password is not valid'))
+        /*
+        Query RAW
+         */
+            User.sequelize.query('SELECT * FROM tbl_karyawans join tbl_golongans ON tbl_karyawans.kode_golongan = tbl_golongans.id where email = ?',{
+                replacements:[email],
+                type: Sequelize.QueryTypes.SELECT
+            },{raw:true})
+            .then((user)=>{
+                console.log(user[0])
+            //Validasi username tidak ditemukan
+            if(!user[0]){
+                return done(null, false, req.flash('message','Akun tidak ditemukan!'))
+            }
+            //Validasi Status Aktif
+            //Validasi username atau password salah
+            if(!isValidPassword(user[0].password, password)){
+                return done(null, false, req.flash('message','Username atau Password salah!'))
             }
 
-            if(!isValidPassword(user.password, password)){
-                return done(null, false, req.flash('message','Username or Password is not valid'))
+            if(user[0].status_aktif=='Tidak Aktif'){
+                return done(null, false, req.flash('message','Akun Anda tidak Aktif! harap hubungin admin'))
             }
             let data = {
                 last_login: createDateAsUTC(date)
             }
-            user.update(data).then((newUser,created)=>{
+            User.update({last_login:data.last_login},{where:{nip:user[0].nip}}).then((newUser,created)=>{
                 console.log('newUser',newUser)
-                if(!newUser){
-                    return done(null,false)
-                } else {
-                    return done(null, newUser)
-                }
             })
-            let userinfo = user.get();
+            let userinfo = user[0];
+                console.log(user[0])
+                console.log('userinfo '+JSON.stringify(userinfo))
+                JSON.stringify(userinfo)
             return done(null,userinfo)
 
         }).catch((err)=>{

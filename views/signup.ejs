@@ -1,0 +1,179 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <% include ./partials/bootstrap3.ejs%>
+    <!-- Custom Css for Signup -->
+    <link rel="stylesheet" type="text/css" href="/form-signup/custom_signup.css">
+
+    <!-- Website Font style -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">
+
+    <!-- Google Fonts -->
+    <link href='https://fonts.googleapis.com/css?family=Passion+One' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Oxygen' rel='stylesheet' type='text/css'>
+</head>
+<body>
+<div class="container">
+    <div class="row main">
+        <div class="panel-heading">
+            <div class="panel-title text-center">
+                <h1 class="title">Rumah Sakit Suyoto</h1>
+                <hr />
+            </div>
+        </div>
+        <div class="main-login main-center">
+        <form role="form" class="form-horizontal" method="post" action="/signup" name="signup" id="signup">
+            <p style="color: red"><%= message%></p>
+            <div class="form-group">
+                <label for="name" class="cols-sm-2 control-label">Nama Anda</label>
+                <div class="cols-sm-10">
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="fa fa-user fa" aria-hidden="true"></i>
+                        </span>
+                        <input type="text" class="form-control" name="name" placeholder="Masukan Nama Anda" id="name">
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="email" class="cols-sm-2 control-label">Email Anda</label>
+                <div class="cols-sm-10">
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="fa fa-envelope fa" aria-hidden="true"></i></span>
+                        <input type="email" class="form-control" name="email" id="email" placeholder="Masukan Email Anda">
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="email" class="cols-sm-2 control-label">Password</label>
+                <div class="cols-sm-10">
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="fa fa-lock fa" aria-hidden="true"></i></span>
+                        <input type="password" class="form-control" name="password" id="password" placeholder="Masukan Password Anda">
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="confirm" class="cols-sm-2 control-label">Confirm Password</label>
+                <div class="cols-sm-10">
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="fa fa-lock fa-lg" aria-hidden="true"></i></span>
+                        <input type="password" class="form-control" name="confirmPassword" id="confirm"  placeholder="Masukan Ulang Password Anda"/>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="email" class="cols-sm-2 control-label">Tempat Lahir Anda</label>
+                <div class="cols-sm-10">
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="fa fa-location-arrow fa" aria-hidden="true"></i></span>
+                        <input type="text" class="form-control" name="tempat_lahir" id="tempat_lahir" placeholder="Masukan Tempat Lahir Anda">
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="email" class="cols-sm-2 control-label">Tanggal Lahir Anda</label>
+                <div class="cols-sm-10">
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="fa fa-birthday-cake fa" aria-hidden="true"></i></span>
+                        <input type="date" class="form-control" name="tanggal_lahir" id="tanggal_lahir">
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="email" class="cols-sm-2 control-label">Status Hubungan Anda</label>
+                <div class="cols-sm-10">
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="fa fa-envelope fa" aria-hidden="true"></i></span>
+                          <div class="row">
+                            <div class="col-sm-6">
+                                <input type="radio" name="status" value="Menikah">
+                                <label for="statusMenikah">Menikah</label>
+                            </div>
+                            <div class="col-sm-4">
+                                <input type="radio" name="status" value="Lajang">
+                                <label for="statusLajang">Lajang</label>
+                            </div>
+                          </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="email" class="cols-sm-2 control-label">Jenis Kelamin Anda</label>
+                <div class="cols-sm-10">
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="fa fa-genderless fa" aria-hidden="true"></i></span>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <input type="radio" name="jenis_kelamin" value="Laki-Laki"/>
+                                <label for="jenis_kelamin">Laki-Laki</label>
+                            </div>
+                            <div class="col-sm-6">
+                                <input type="radio" name="jenis_kelamin " value="Perempuan">
+                                <label for="jenis_kelamin">Perempuan</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="email" class="cols-sm-2 control-label">Pendidikan Terakhir Anda</label>
+                <div class="cols-sm-10">
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="fa fa-university fa" aria-hidden="true"></i></span>
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <input type="radio" name="pendidikan_terakhir" value="D1"/>
+                                <label for="pendidikan_terakhir">D1</label>
+                            </div>
+                            <div class="col-sm-4">
+                                <input type="radio" name="pendidikan_terakhir" value="D2"/>
+                                <label for="pendidikan_terakhir">D2</label>
+                            </div>
+                            <div class="col-sm-4">
+                                <input type="radio" name="pendidikan_terakhir" value="D3"/>
+                                <label for="pendidikan_terakhir">D3</label>
+                            </div>
+                            <div class="col-sm-4">
+                                <input type="radio" name="pendidikan_terakhir" value="S1"/>
+                                <label for="pendidikan_terakhir">S1</label>
+                            </div>
+                            <div class="col-sm-4">
+                                <input type="radio" name="pendidikan_terakhir" value="S2">
+                                <label for="pendidikan_terakhir">S2</label>
+                            </div>
+                            <div class="col-sm-4">
+                                <input type="radio" name="pendidikan_terakhir" value="S3">
+                                <label for="pendidikan_terakhir">S3</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="email" class="cols-sm-2 control-label">Alamat Anda</label>
+                <div class="cols-sm-10">
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="fa fa-location-arrow fa" aria-hidden="true"></i></span>
+                        <!--<input type="text" class="form-control" name="tanggal_lahir" id="tanggal_lahir" placeholder="DD/MM/YYYY">-->
+                        <textarea name="alamat" id="alamat" cols="30" rows="4" class="form-control" placeholder="Alamat"></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <input type="submit" class="btn btn-primary btn-lg btn-block" value="Register">
+            </div>
+        </form>
+        </div>
+    </div>
+    </div>
+</body>
+</html>
